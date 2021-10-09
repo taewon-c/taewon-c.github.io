@@ -15,7 +15,7 @@ discus-identifier:  XXX
 author:
   name: ttaka(taewon-c)
   bio: Software Engineer @NAVER <br> South Korea  
-  picture: assets/images/profile.jpg 
+  picture: ./assets/images/profile.jpg 
   github: taewon-c # github username
   instagram: ttaka_w # instagram username
   linkedin: taewon Choi # linkedin username
