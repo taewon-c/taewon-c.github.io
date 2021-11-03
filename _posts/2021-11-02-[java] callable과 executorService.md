@@ -64,5 +64,11 @@ ExecutorService는 아래를 참고하면 이해가 쉽다.
 
 #### [ExecutorService 설명링크](https://codechacha.com/ko/java-executors/)
 
+또한, ExecutorService는 interface인데 스프링에서는 @Autowired로 선언해서 쓰면 된다.
+@Autowired가 ExecutorService 구현체를 찾아서 주입해준다.
+(인터페이스가 여러 구현체로 구현되어 있다면 Error를 뱉는다. 이때는 빈 우선순위를 정해준다. @Primary, @Qualifier..)
+
+
+
 
 
