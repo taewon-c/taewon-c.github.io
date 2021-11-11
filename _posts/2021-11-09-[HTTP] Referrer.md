@@ -16,6 +16,7 @@ html페이지에서 다른곳으로 request를 날릴때 설정할 수 있다.
 
 ```html
 <meta name="referrer" content="xxx">
+
 ```
 
 
