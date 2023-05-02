@@ -53,7 +53,6 @@ avg_df.show()
   - 데이터가 스키마와 맞지 않는 경우, 조기에 문제를 발견할 수 있다.
 
 ### 스키마를 정의하는 법
-- scala
 ```scala
 val schema = StructType(Array(StructField("author", StringType, false),
 StructField("title", StringType, false), 
