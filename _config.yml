@@ -14,10 +14,10 @@ discus-identifier:  XXX
 # Author settings
 author:
   name: ttaka(taewon-c)
-  bio: Software Engineer @NAVER <br> South Korea  
+  bio: Software Engineer <br> South Korea  
   picture: ./assets/images/profile.jpg 
   github: taewon-c # github username
-  instagram: ttaka_w # instagram username
+  instagram: taewon.c # instagram username
   linkedin: taewon Choi # linkedin username
   email: rotae92@naver.com # email adress
 
