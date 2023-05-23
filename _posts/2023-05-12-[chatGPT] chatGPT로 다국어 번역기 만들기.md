@@ -92,6 +92,8 @@ response = openai.ChatCompletion.create(
 ```
 - 답변
   - `"content": "As an AI language model, I do not have emotions like humans do, but I am functioning properly. How can I assist you today?"`
+
+
 ### chatGPT 대답을 늘려보자
 - n : 5
 ```py
