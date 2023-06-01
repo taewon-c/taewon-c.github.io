@@ -27,7 +27,7 @@ _(본 내용은 해당 강의를 보고 공부를 위해 요약한 자료입니�
       - chatGPT 토큰 정책마다 다르다. 단어당 하나라고 보면 된다.
 4. `Billing`에 들어가서 payment method를 등록하자.
   - 알람, 최대결제 한도 등을 설정할 수 있다.
-  - _5달러가 결제가 되는데 몇일뒤 취소된다고 한다._ 
+  - _5달러가 결제가 되는데 몇일뒤 취소된다고 한다. 초반에는 환불이 됬었는데 환불이 안될수도 있어서 5달러 투자한다고 생각해야 마음이 편하다._ 
    - https://www.clien.net/service/board/kin/18005411
 
 _(pycharm 설치 후 테스트)_
@@ -163,3 +163,108 @@ response = openai.ChatCompletion.create(
 - 답변 
   - `"content": "Hello. I like exercising and currently I want to create a translator using GPT. Please translate this sentence into English."`
 
+# Flask를 이용해 다국어 번역기 server 만들기
+- Flask 설치
+```
+pip install flask
+```
+
+### [server] 위에서 openai를 이용하는 코드와 Flask코드를 합치기
+```py
+import openai
+from flask import Flask, request
+openai.api_key = "발급받은 키"
+
+app = Flask(__name__)
+
+@app.route("/translater", method=["post"])
+def translater():
+    data = request.json
+
+    language = data["language"]
+    text = data["text"]
+
+    prompt = f"{text}\n\nTranslate the sentence into {language}"
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "you are a translater."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        max_tokens=500,
+    )
+
+
+    return response["choices"][0]["message"]["content"]
+
+# cors를 피하기위해 서버에서 html 띄움
+@app.route("/web")
+def web():
+    return render_template("index.html")
+
+@app.route("/")
+def index():
+        return "Hello world"
+
+
+app.run(host="0.0.0.0", port=80)
+```
+
+### [Front] html 소스
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>번역기</title>
+    </head>
+    <body>
+        <h1>번역 사이트</h1> <br />
+    <textarea id="text" style="width: 500px; height: 200px;"></textarea> <br />
+
+    어느 언어로 번역하겠습니까?
+    <input id="language" type="text"/>
+    <button id="button">번역하기</button><br/>
+
+    <h2>번역결과</h2> <br />
+    <textarea id="result" style="width: 500px; height: 200px;"></textarea>
+
+    <script>
+        let textAreaTag = document.getElementById("text");
+        let languageTag = document.getElementById("language");
+        let buttonTag = document.getElementById("button");
+        let resultTag = document.getElementById("result");
+
+        buttonTag.addEventListener("click", async () => {
+            let text = textAreaTag.value;
+            let language = languageTag.value;
+            await fetch("http://127.0.0.1/translater", {
+                "method": "post",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({text, language})
+            })
+            .then((response) => response.text())
+            .then((data) => {
+                resultTag.value = data;
+            })
+        })
+    </script>
+    </body>
+</html>
+```
+
+# 결과
+### 영어
+![](../assets/images/chatgpt/english.png)
+
+### 일본어
+![](../assets/images/chatgpt/japanese.png)
